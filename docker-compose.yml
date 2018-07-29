@@ -52,7 +52,7 @@ services:
       - STORAGE_TYPE=elasticsearch
       - ES_HOSTS=elasticsearch
       # Uncomment to see requests to and from elasticsearch
-      # - ES_HTTP_LOGGING=BODY
+      - ES_HTTP_LOGGING=BODY
     ports:
       - 9411:9411
     networks:
