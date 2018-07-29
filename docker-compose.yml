@@ -1,7 +1,6 @@
 version: '2'
 
 services:
-
   elasticsearch:
     build:
       context: elasticsearch/
@@ -55,6 +54,23 @@ services:
       - ES_HTTP_LOGGING=BODY
     ports:
       - 9411:9411
+    networks:
+      - elk
+
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat:6.3.2
+    container_name: metricbeat
+    user: root
+    volumes:
+      - ./metricbeat/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
+      - /proc:/hostfs/proc:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /:/hostfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./metricbeat:/usr/share/metricbeat/data
+    environment:
+      - ELASTICSEARCH_HOST=elasticsearch
+      - KIBANA_HOST=kibana
     networks:
       - elk
 
